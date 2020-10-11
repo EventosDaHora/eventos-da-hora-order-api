@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 public interface OrderRestClient {
 
     @POST
+    @Path("/novo")
     @Produces(MediaType.APPLICATION_JSON)
     void novoPedido(OrderDTO orderDTO);
 }

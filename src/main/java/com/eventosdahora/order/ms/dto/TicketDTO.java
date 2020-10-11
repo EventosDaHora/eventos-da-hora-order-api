@@ -2,6 +2,8 @@ package com.eventosdahora.order.ms.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -11,6 +13,4 @@ import lombok.*;
 public class TicketDTO {
 
     private Long id;
-
-    private Long ammount;
 }
