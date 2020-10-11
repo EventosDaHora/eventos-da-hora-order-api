@@ -23,6 +23,9 @@ public class OrderResource {
     @RestClient
     OrderRestClient orderRestClient;
     
+    
+    
+    
     @POST
     @Transactional
     public void novo(OrderRequestDTO orderRequestDTO) {
