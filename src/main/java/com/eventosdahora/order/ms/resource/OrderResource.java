@@ -5,6 +5,8 @@ import com.eventosdahora.order.ms.dto.OrderDTO;
 import com.eventosdahora.order.ms.dto.request.OrderRequestDTO;
 import com.eventosdahora.order.ms.dto.request.PaymentRequestDTO;
 import com.eventosdahora.order.ms.rest.OrderRestClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -23,13 +25,10 @@ public class OrderResource {
     @RestClient
     OrderRestClient orderRestClient;
     
-    
-    
-    
     @POST
     @Transactional
-    public void novo(OrderRequestDTO orderRequestDTO) {
-        log.info("--- Recebendo ORDER REQUEST");
+    public void novo(OrderRequestDTO orderRequestDTO) throws JsonProcessingException {
+        log.info("--- Criando ORDER REQUEST");
         log.info(orderRequestDTO.toString());
     
         Order order = orderRequestDTO.toEntity();
@@ -40,13 +39,16 @@ public class OrderResource {
     
         log.info("--- Criando ORDER DTO");
         log.info(order.toOrderDTO(orderRequestDTO.getPayment()).toString());
+    
+        ObjectMapper obj = new ObjectMapper();
+        log.info(obj.writeValueAsString(order.toOrderDTO(orderRequestDTO.getPayment())));
         orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment()));
     }
 
     @PUT
     @Transactional
     public void atualiza(OrderDTO orderDTO) {
-        log.info("PUT");
+        log.info("--- Recebendo Atualização de PEDIDO");
         log.info(orderDTO.toString());
         String sql = "status = ?1 WHERE id = ?2";
         Order.update(sql, orderDTO.getOrderState(), orderDTO.getOrderId());

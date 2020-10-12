@@ -3,9 +3,11 @@ package com.eventosdahora.order.ms.dto;
 import com.eventosdahora.order.ms.domain.Order;
 import com.eventosdahora.order.ms.domain.OrderEvent;
 import com.eventosdahora.order.ms.domain.OrderState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +25,7 @@ public class OrderDTO {
 	
 	private Long orderId;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime createdDate;
 	
 	private OrderState orderState;
@@ -41,7 +44,7 @@ public class OrderDTO {
 	public Order toEntity() {
 		return Order.builder()
 		            .id(new Date().getTime())
-		            .dtCreate(LocalDateTime.now())
+		            .dtCreate(createdDate)
 		            .status(OrderState.NOVO_PEDIDO)
 		            .userId(userId)
 		            .build();
