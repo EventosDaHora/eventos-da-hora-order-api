@@ -4,11 +4,14 @@ import com.eventosdahora.order.ms.domain.Order;
 import com.eventosdahora.order.ms.domain.OrderEvent;
 import com.eventosdahora.order.ms.domain.OrderState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderDTO {
 	
 	public static final String IDENTIFICADOR = "ID_PEDIDO";
