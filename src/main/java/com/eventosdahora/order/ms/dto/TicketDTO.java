@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TicketDTO {
-
+    
     private Long id;
+    private Long quantity;
 }

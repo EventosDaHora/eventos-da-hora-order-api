@@ -39,9 +39,7 @@ public class OrderResource {
     
         log.info("--- Criando ORDER DTO");
         log.info(order.toOrderDTO(orderRequestDTO.getPayment()).toString());
-    
-        ObjectMapper obj = new ObjectMapper();
-        log.info(obj.writeValueAsString(order.toOrderDTO(orderRequestDTO.getPayment())));
+
         orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment()));
     }
 

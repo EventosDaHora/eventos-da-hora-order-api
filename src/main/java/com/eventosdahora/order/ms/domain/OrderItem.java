@@ -7,10 +7,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -18,25 +14,25 @@ import java.util.List;
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem extends PanacheEntity {
-    @Column(name = "id_order_item")
-    public Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_order")
-    public Order order;
-
-    @Column(name = "id_external_item")
-    public Long externalItemId;
-
-    @Column(name = "qt_item")
-    public Long qtdItems;
-    
-    public TicketDTO toTicketDTO() {
-        return TicketDTO.builder()
-                        .id(externalItemId)
-                        .build();
-    }
-    
-    
-    
+	
+	@Column(name = "id_order_item")
+	public Long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_order")
+	public Order order;
+	
+	@Column(name = "id_external_item")
+	public Long externalItemId;
+	
+	@Column(name = "qt_item")
+	public Long qtdItems;
+	
+	public TicketDTO toTicketDTO() {
+		return TicketDTO.builder()
+		                .id(externalItemId)
+		                .quantity(qtdItems)
+		                .build();
+	}
+	
 }
