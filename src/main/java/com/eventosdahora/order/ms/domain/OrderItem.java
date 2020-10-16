@@ -13,8 +13,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_order_item")
-public class OrderItem extends PanacheEntity {
+public class OrderItem {
 	
+	@Id
+	@SequenceGenerator(name="seq_order_item", sequenceName="seq_order_item", initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_order_item")
 	@Column(name = "id_order_item")
 	public Long id;
 	

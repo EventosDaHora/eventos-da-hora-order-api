@@ -2,6 +2,7 @@ package com.eventosdahora.order.ms.domain;
 
 import com.eventosdahora.order.ms.dto.OrderDTO;
 import com.eventosdahora.order.ms.dto.request.PaymentRequestDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,14 +23,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_order")
-public class Order extends PanacheEntity {
+public class Order {
 	
+	@Id
+	@SequenceGenerator(name="seq_order", sequenceName="seq_order", initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_order")
 	@Column(name = "id_order", length = 19)
 	public Long id;
 	
 	@Column(name = "id_user", length = 19)
 	public Long userId;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
 	@Column(name = "dt_create")
 	public LocalDateTime dtCreate;
 	
@@ -43,7 +48,7 @@ public class Order extends PanacheEntity {
 	@Column(name = "vl_fees", length = 19)
 	public BigDecimal fees;
 	
-	@OneToMany(targetEntity = OrderItem.class, mappedBy = "order")
+	@OneToMany(targetEntity = OrderItem.class, mappedBy = "order", cascade = CascadeType.PERSIST)
 	public List<OrderItem> items;
 	
 	public OrderDTO toOrderDTO(PaymentRequestDTO paymentRequestDTO) {

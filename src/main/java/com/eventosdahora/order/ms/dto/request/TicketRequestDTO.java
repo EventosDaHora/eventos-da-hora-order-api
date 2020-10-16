@@ -19,7 +19,6 @@ public class TicketRequestDTO {
 	
 	public OrderItem toEntity() {
 		return OrderItem.builder()
-		                .id(new Date().getTime())
 		                .externalItemId(id)
 		                .qtdItems(quantity)
 		                .build();

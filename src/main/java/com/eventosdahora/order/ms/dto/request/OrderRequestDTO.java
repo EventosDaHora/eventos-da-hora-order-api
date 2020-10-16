@@ -26,7 +26,6 @@ public class OrderRequestDTO {
 	
 	public Order toEntity() {
 		return Order.builder()
-		            .id(new Date().getTime())
 		            .userId(userId)
 		            .dtCreate(LocalDateTime.now())
 		            .fees(fees)
