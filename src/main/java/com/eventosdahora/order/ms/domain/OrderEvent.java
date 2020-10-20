@@ -1,5 +1,10 @@
 package com.eventosdahora.order.ms.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public enum OrderEvent {
     RESERVAR_TICKET,
     RESERVA_TICKET_APROVADO,

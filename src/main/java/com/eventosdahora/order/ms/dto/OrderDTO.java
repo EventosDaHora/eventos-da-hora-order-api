@@ -49,7 +49,7 @@ public class OrderDTO {
 		return Order.builder()
 		            .id(new Date().getTime())
 		            .dtCreate(createdDate)
-		            .status(OrderState.NOVO_PEDIDO)
+		            .status(OrderState.NOVO_PEDIDO.toString())
 		            .userId(userId)
 		            .build();
 	}

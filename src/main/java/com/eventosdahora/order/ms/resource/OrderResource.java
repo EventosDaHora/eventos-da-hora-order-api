@@ -1,14 +1,18 @@
 package com.eventosdahora.order.ms.resource;
 
 import com.eventosdahora.order.ms.domain.Order;
+import com.eventosdahora.order.ms.domain.OrderState;
 import com.eventosdahora.order.ms.dto.OrderDTO;
 import com.eventosdahora.order.ms.dto.request.OrderRequestDTO;
+import com.eventosdahora.order.ms.repository.OrderItemRepository;
 import com.eventosdahora.order.ms.repository.OrderRepository;
 import com.eventosdahora.order.ms.rest.OrderRestClient;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class OrderResource {
 	
 	@Inject
@@ -28,13 +33,20 @@ public class OrderResource {
 	@Inject
 	OrderRepository orderRepository;
 	
+	@Inject
+	OrderItemRepository orderItemRepository;
+	
 	@POST
+	@Transactional
 	public Response add(OrderRequestDTO orderRequestDTO) {
-		log.info("--- Criando Novo pedido");
-		log.info(orderRequestDTO.toString());
+		Long orderId;
 		
 		Order order = orderRequestDTO.toEntity();
-		orderRepository.save(order);
+		
+		order = orderRepository.saveAndFlush(order);
+		orderId = order.getId();
+		order.getItems().forEach(x -> x.setOrder(new Order(orderId)));
+		order = orderRepository.save(order);
 		
 		orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment()));
 		
@@ -42,22 +54,35 @@ public class OrderResource {
 	}
 	
 	@PUT
+	@Transactional
 	public Response update(OrderDTO orderDTO) {
 		log.info("--- Recebendo atualizacao de PEDIDO");
+		log.info(orderDTO.toString());
 		
 		Optional<Order> orderOptional = orderRepository.findById(orderDTO.getOrderId());
 		if (orderOptional.isPresent()) {
-			orderOptional.get().status = orderDTO.getOrderState();
-			orderRepository.save(orderOptional.get());
+			log.info("--- Buscando do banco - 1 -");
+			log.info(orderOptional.get().toString());
+			
+			orderOptional.get().status = OrderState.valueOf(orderDTO.getOrderState().toString()).toString();
+			orderOptional.get().idPayment = 666L;
+			
+			orderRepository.saveAndFlush(orderOptional.get());
+			
+			log.info("--- Buscando do banco - 2 -");
+			log.info(orderRepository.findById(orderDTO.getOrderId()).get().toString());
+			
 			return Response.ok(orderOptional.get()).build();
-		}else{
+		} else {
 			return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Order not found").build();
 		}
 	}
 	
 	@GET
-	public Response getAll() {
-		return Response.ok(orderRepository.findAll()).build();
+	public Response getAll(@QueryParam("userId") Long userId) {
+		List<Order> orderList =
+				userId == null ? orderRepository.findAll() : orderRepository.findByUserIdOrderByDtCreate(userId);
+		return Response.ok(orderList).build();
 	}
 	
 }

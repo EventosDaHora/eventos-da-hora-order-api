@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TicketDTO {

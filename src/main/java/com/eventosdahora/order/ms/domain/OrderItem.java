@@ -1,13 +1,14 @@
 package com.eventosdahora.order.ms.domain;
 
 import com.eventosdahora.order.ms.dto.TicketDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +22,7 @@ public class OrderItem {
 	@Column(name = "id_order_item")
 	public Long id;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_order")
 	public Order order;
@@ -38,4 +40,12 @@ public class OrderItem {
 		                .build();
 	}
 	
+	@Override
+	public String toString() {
+		return "OrderItem{" +
+		       "id=" + id +
+		       ", externalItemId=" + externalItemId +
+		       ", qtdItems=" + qtdItems +
+		       '}';
+	}
 }

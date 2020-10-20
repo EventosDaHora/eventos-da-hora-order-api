@@ -30,7 +30,7 @@ public class OrderRequestDTO {
 		            .dtCreate(LocalDateTime.now())
 		            .fees(fees)
 		            .items(tickets.stream().map(TicketRequestDTO::toEntity).collect(Collectors.toList()))
-		            .status(OrderState.NOVO_PEDIDO)
+		            .status(OrderState.NOVO_PEDIDO.toString())
 		            .build();
 	}
 }
