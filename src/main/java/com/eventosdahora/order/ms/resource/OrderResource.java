@@ -12,7 +12,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -37,11 +36,16 @@ public class OrderResource {
 	OrderItemRepository orderItemRepository;
 	
 	@POST
-	@Transactional
 	public Response add(OrderRequestDTO orderRequestDTO) {
+		log.info("--- Novo Pedido");
+		log.info(orderRequestDTO.toString());
+		
+		
 		Long orderId;
 		
 		Order order = orderRequestDTO.toEntity();
+		log.info("--- Transformando Pedido");
+		log.info(order.toString());
 		
 		order = orderRepository.saveAndFlush(order);
 		orderId = order.getId();
@@ -54,23 +58,16 @@ public class OrderResource {
 	}
 	
 	@PUT
-	@Transactional
 	public Response update(OrderDTO orderDTO) {
 		log.info("--- Recebendo atualizacao de PEDIDO");
 		log.info(orderDTO.toString());
 		
 		Optional<Order> orderOptional = orderRepository.findById(orderDTO.getOrderId());
 		if (orderOptional.isPresent()) {
-			log.info("--- Buscando do banco - 1 -");
-			log.info(orderOptional.get().toString());
 			
-			orderOptional.get().status = OrderState.valueOf(orderDTO.getOrderState().toString()).toString();
-			orderOptional.get().idPayment = 666L;
-			
-			orderRepository.saveAndFlush(orderOptional.get());
-			
-			log.info("--- Buscando do banco - 2 -");
-			log.info(orderRepository.findById(orderDTO.getOrderId()).get().toString());
+			orderRepository.updateOrderStatusAndIdPayment(orderDTO.getOrderState().toString(),
+			                                              orderDTO.getPayment().getPaymentId(),
+			                                              orderDTO.getOrderId());
 			
 			return Response.ok(orderOptional.get()).build();
 		} else {
