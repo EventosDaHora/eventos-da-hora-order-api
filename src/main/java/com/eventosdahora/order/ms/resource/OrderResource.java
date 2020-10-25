@@ -52,7 +52,7 @@ public class OrderResource {
 		order.getItems().forEach(x -> x.setOrder(new Order(orderId)));
 		order = orderRepository.save(order);
 		
-		orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment()));
+		orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment(), orderRequestDTO.getEmailNotification()));
 		
 		return Response.ok(order).build();
 	}

@@ -40,6 +40,8 @@ public class OrderDTO {
 	
 	private Long userId;
 	
+	private String emailNotification;
+	
 	@Builder.Default
 	private List<TicketDTO> tickets = new ArrayList<>();
 	

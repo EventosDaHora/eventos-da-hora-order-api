@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class OrderRequestDTO {
 	
 	private Long userId;
+	private String emailNotification;
 	private BigDecimal fees;
 	private PaymentRequestDTO payment;
 	private List<TicketRequestDTO> tickets;

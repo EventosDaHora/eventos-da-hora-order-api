@@ -47,12 +47,13 @@ public class Order {
 	@OneToMany(targetEntity = OrderItem.class, mappedBy = "order", orphanRemoval=true, fetch = FetchType.EAGER)
 	public List<OrderItem> items;
 	
-	public OrderDTO toOrderDTO(PaymentRequestDTO paymentRequestDTO) {
+	public OrderDTO toOrderDTO(PaymentRequestDTO paymentRequestDTO, String emailNotification) {
 		return OrderDTO.builder()
 		               .orderId(id)
 		               .createdDate(dtCreate)
 		               .fees(fees)
 		               .userId(userId)
+		               .emailNotification(emailNotification)
 		               .tickets(items.stream().map(OrderItem::toTicketDTO).collect(Collectors.toList()))
 		               .payment(paymentRequestDTO.toPaymentDTO())
 		               .orderState(OrderState.NOVO_PEDIDO)
