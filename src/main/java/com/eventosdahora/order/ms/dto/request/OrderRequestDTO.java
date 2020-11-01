@@ -2,6 +2,7 @@ package com.eventosdahora.order.ms.dto.request;
 
 import com.eventosdahora.order.ms.domain.Order;
 import com.eventosdahora.order.ms.domain.OrderState;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRequestDTO {
 	
 	private Long userId;
