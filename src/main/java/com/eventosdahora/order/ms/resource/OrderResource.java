@@ -39,8 +39,7 @@ public class OrderResource {
 	public Response add(OrderRequestDTO orderRequestDTO) {
 		log.info("--- Novo Pedido");
 		log.info(orderRequestDTO.toString());
-		
-		
+
 		Long orderId;
 		
 		Order order = orderRequestDTO.toEntity();
@@ -51,9 +50,9 @@ public class OrderResource {
 		orderId = order.getId();
 		order.getItems().forEach(x -> x.setOrder(new Order(orderId)));
 		order = orderRepository.save(order);
-		
+
 		orderRestClient.novoPedido(order.toOrderDTO(orderRequestDTO.getPayment(), orderRequestDTO.getEmailNotification()));
-		
+
 		return Response.ok(order).build();
 	}
 	

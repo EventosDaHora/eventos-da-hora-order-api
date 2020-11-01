@@ -1,6 +1,7 @@
 package com.eventosdahora.order.ms.rest;
 
 import com.eventosdahora.order.ms.dto.OrderDTO;
+import io.smallrye.mutiny.Uni;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.enterprise.context.RequestScoped;
