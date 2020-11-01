@@ -2,6 +2,7 @@ package com.eventosdahora.order.ms.dto.request;
 
 import com.eventosdahora.order.ms.dto.PaymentDTO;
 import com.eventosdahora.order.ms.dto.PaymentType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentRequestDTO {
 	
 	public BigDecimal vlAmount;
