@@ -9,6 +9,7 @@ import com.eventosdahora.order.ms.repository.OrderRepository;
 import com.eventosdahora.order.ms.rest.OrderRestClient;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.springframework.data.domain.Sort;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -77,7 +78,7 @@ public class OrderResource {
 	@GET
 	public Response getAll(@QueryParam("userId") Long userId) {
 		List<Order> orderList =
-				userId == null ? orderRepository.findAll() : orderRepository.findByUserIdOrderByDtCreate(userId);
+				userId == null ? orderRepository.findAll(Sort.by(Sort.Direction.DESC, "id")) : orderRepository.findByUserIdOrderByDtCreate(userId);
 		return Response.ok(orderList).build();
 	}
 	

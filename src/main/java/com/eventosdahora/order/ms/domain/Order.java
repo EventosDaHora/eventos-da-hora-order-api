@@ -55,7 +55,7 @@ public class Order {
 		               .userId(userId)
 		               .emailNotification(emailNotification)
 		               .tickets(items.stream().map(OrderItem::toTicketDTO).collect(Collectors.toList()))
-		               .payment(paymentRequestDTO.toPaymentDTO())
+		               .payment(paymentRequestDTO.toPaymentDTO(fees))
 		               .orderState(OrderState.NOVO_PEDIDO)
 		               .build();
 	}

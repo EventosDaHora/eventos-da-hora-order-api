@@ -19,7 +19,7 @@ public class PaymentRequestDTO {
 	public BigDecimal vlAmount;
 	public PaymentType paymentType;
 	
-	public PaymentDTO toPaymentDTO() {
-		return PaymentDTO.builder().vlAmount(vlAmount).paymentType(paymentType).build();
+	public PaymentDTO toPaymentDTO(final BigDecimal fees) {
+		return PaymentDTO.builder().vlAmount(vlAmount.add(fees)).paymentType(paymentType).build();
 	}
 }
