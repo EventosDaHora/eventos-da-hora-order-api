@@ -38,15 +38,12 @@ public class OrderResource {
 	
 	@POST
 	public Response add(OrderRequestDTO orderRequestDTO) {
-		log.info("--- Novo Pedido");
-		log.info(orderRequestDTO.toString());
-
 		Long orderId;
 		
 		Order order = orderRequestDTO.toEntity();
-		log.info("--- Transformando Pedido");
+		log.info("--- Novo Pedido");
 		log.info(order.toString());
-		
+
 		order = orderRepository.saveAndFlush(order);
 		orderId = order.getId();
 		order.getItems().forEach(x -> x.setOrder(new Order(orderId)));
@@ -59,7 +56,7 @@ public class OrderResource {
 	
 	@PUT
 	public Response update(OrderDTO orderDTO) {
-		log.info("--- Recebendo atualizacao de PEDIDO");
+		log.info("--- Recebendo atualizacao de PEDIDO do Orquestrador");
 		log.info(orderDTO.toString());
 		
 		Optional<Order> orderOptional = orderRepository.findById(orderDTO.getOrderId());

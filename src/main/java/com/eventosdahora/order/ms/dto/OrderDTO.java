@@ -20,7 +20,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderDTO {
@@ -47,12 +46,13 @@ public class OrderDTO {
 	
 	private PaymentDTO payment;
 	
-	public Order toEntity() {
-		return Order.builder()
-		            .id(new Date().getTime())
-		            .dtCreate(createdDate)
-		            .status(OrderState.NOVO_PEDIDO.toString())
-		            .userId(userId)
-		            .build();
+	@Override
+	public String toString() {
+		return "OrderDTO{" +
+				"orderId=" + orderId +
+				", orderState=" + orderState +
+				", orderEvent=" + orderEvent +
+				", tickets=" + tickets +
+				'}';
 	}
 }

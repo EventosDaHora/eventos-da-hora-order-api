@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ToString
 public class TicketDTO {
     
     private Long id;
